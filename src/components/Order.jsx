@@ -4,17 +4,19 @@ const Binance = require('node-binance-api');
 function Order() {
     const [order, setOrder] = useState([])
     useEffect(() => {
-        fetchData().then(apiOrder => {
+        fetchData('ETHUSDT').then(apiOrder => {
             setOrder(apiOrder);
-            console.log(apiOrder);
         })
     }, [])
     
-    
+    console.log(order);
     return (
         <div>
-            {order.map((historyOrder) => 
-                <div>{historyOrder.orderId}</div>)}
+            {order.map((historyOrder, historyOrderIdx) => {
+                let time = new Date(historyOrder.time)
+                console.log(time)
+                return <div key={historyOrderIdx}>{historyOrder.price}, {historyOrder.side}, {time.toLocaleString()}</div>
+            })}
         </div>
     )
 }
